@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partners - Native Defence</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --primary-dark: #004c99;
+            --accent-color: #00c4cc;
+            --dark-bg: #0d121f;
+            --card-bg: #16213e;
+            --light-bg: #f8f9fa;
+            --text-main: #1a1a2e;
+            --text-light: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+         .navbar {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+        
+        .navbar-brand-text {
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 600;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 15px !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 80%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        /* --- Hero Section --- */
+        .partner-hero {
+            background: linear-gradient(rgba(13, 18, 31, 0.8), rgba(13, 18, 31, 0.9)), 
+                        url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 180px 0 100px;
+            color: white;
+            text-align: center;
+        }
+        
+        /* --- Section Headers --- */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-header h2 {
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        .divider {
+            height: 4px;
+            width: 70px;
+            background: var(--primary-color);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* --- Logo Grid Styles --- */
+        .logo-section {
+            padding: 80px 0;
+        }
+        .bg-light-custom {
+            background-color: var(--light-bg);
+        }
+        .bg-dark-custom {
+            background-color: var(--dark-bg);
+            color: white;
+        }
+
+        .logo-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            height: 140px; /* Fixed height for consistency */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+        .logo-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 102, 204, 0.15);
+            border-color: var(--primary-color);
+        }
+        .logo-container img {
+            max-width: 100%;
+            max-height: 90px;
+            object-fit: contain;
+            filter: grayscale(100%); /* Optional: Make logos B&W initially */
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+        .logo-container:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* --- Partner Types / Ecosystem --- */
+        .ecosystem-section {
+            padding: 80px 0;
+            background-color: white;
+        }
+        .partner-type-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            height: 100%;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .partner-type-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--primary-color);
+        }
+        .pt-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            display: inline-block;
+            background: rgba(0, 102, 204, 0.1);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+        }
+        .partner-type-card h4 {
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+        .partner-type-card p {
+            color: #6c757d;
+        }
+
+        /* --- Join Form --- */
+        .join-form-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color, #004c99) 100%);
+            color: white;
+        }
+        .custom-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        .custom-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: white;
+            color: white;
+            box-shadow: none;
+        }
+        .custom-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .form-select.custom-input option {
+            color: var(--text-main); /* Dark text for dropdown options */
+        }
+        .btn-white {
+            background-color: white;
+            color: var(--primary-color);
+            font-weight: 700;
+            padding: 12px 40px;
+            border-radius: 50px;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-white:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* --- Footer --- */
+        footer { 
+            background: #0b0f19;
+            padding: 70px 0 30px; 
+            color: #9ca3af;
+        }
+        footer h5 { color: white; font-weight: 700; margin-bottom: 20px; }
+        footer ul { list-style: none; padding: 0; }
+        footer ul li { margin-bottom: 10px; }
+        footer a { color: #9ca3af; text-decoration: none; transition: 0.3s; }
+        footer a:hover { color: var(--primary-color); padding-left: 5px; }
+        .contact-item { display: flex; margin-bottom: 15px; gap: 15px; }
+        .contact-item i { color: var(--primary-color); margin-top: 5px; }
+        .copyright { 
+            border-top: 1px solid rgba(255,255,255,0.05); 
+            margin-top: 50px; 
+            padding-top: 25px; 
+            text-align: center; 
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="NATIVEDEFENCE_Logo1.png" alt="Native Defence" onerror="this.style.display='none'">
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vapt.html">VAPT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="partners.html">Partners</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="partner-hero">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-3">Stronger Together</h1>
+            <p class="lead text-light opacity-75" style="max-width: 700px; margin: 0 auto;">
+                Collaborating with global leaders, OEMs, and integrators to build a resilient cyber ecosystem. 
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION: Our Partners (Light Background) -->
+    <section class="logo-section bg-light-custom">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="text-dark">Our Partners</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Partner 1 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="logo-container">
+                        <img src="https://neoteric.com.np/media/fhinains/neoiteric-logo.png" alt="Partner Logo">
+                    </div>
+                </div>
+                <!-- Partner 2 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="logo-container">
+                        <img src="https://clarex.co/_next/static/media/Clarex.f8b74719.svg" alt="Partner Logo">
+                    </div>
+                </div>
+                <!-- Partner 3 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="logo-container">
+                        <img src="https://www.maahee.in/assets/images/logo.png" alt="Partner Logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: Technology Alliance Partners (Dark Background) -->
+    <section class="logo-section bg-dark-custom">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="text-white">Technology Alliance Partners</h2>
+                <div class="divider" style="background: var(--accent-color);"></div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Tech Partner 1 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="logo-container">
+                        <img src="https://primeinfoserv.com/wp-content/uploads/2023/07/prime-logotype.png" alt="Tech Partner">
+                    </div>
+                </div>
+                <!-- Tech Partner 2 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="logo-container">
+                        <img src="https://www.tatvanetworks.com/wp-content/uploads/2021/01/Tatva-Logo-White-and-color.png" alt="Tech Partner">
+                    </div>
+                </div>
+                <!-- Tech Partner 3 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="logo-container">
+                        <img src="https://gscomputech.com/wp-content/uploads/2023/08/GS-logo-white-2-White-White-e1692825002493.png" alt="Tech Partner">
+                    </div>
+                </div>
+                 <!-- Tech Partner 4 -->
+                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="logo-container">
+                        <img src="http://ky2sc.in/wp-content/uploads/2018/06/logo-new.png" alt="Tech Partner">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner Ecosystem Info -->
+    <section class="ecosystem-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>How We Collaborate</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="partner-type-card">
+                        <i class="fas fa-project-diagram pt-icon"></i>
+                        <h4>System Integrators</h4>
+                        <p>Enabling SIs to offer comprehensive SOC and VAPT services with white-label reporting.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="partner-type-card">
+                        <i class="fas fa-microchip pt-icon"></i>
+                        <h4>OEMs</h4>
+                        <p>Leveraging best-in-class technology stacks from leading OEMs to power our detection engines.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="partner-type-card">
+                        <i class="fas fa-handshake pt-icon"></i>
+                        <h4>Resellers</h4>
+                        <p>Empowering channel partners to sell high-margin cybersecurity services with minimal overhead.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Form Section -->
+    <section class="join-form-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5">
+                        <h2 class="text-white fw-bold">Become a Partner</h2>
+                        <p class="opacity-75">Join the NativeDefence Alliance program and grow your business.</p>
+                    </div>
+
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control custom-input" placeholder="John Doe">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Business Email</label>
+                                <input type="email" class="form-control custom-input" placeholder="john@company.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Company Name</label>
+                                <input type="text" class="form-control custom-input" placeholder="Tech Solutions Ltd.">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Partner Type</label>
+                                <select class="form-select custom-input">
+                                    <option selected>Select Type...</option>
+                                    <option value="reseller">Reseller</option>
+                                    <option value="si">System Integrator</option>
+                                    <option value="oem">OEM / Tech Partner</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Message / Query</label>
+                                <textarea class="form-control custom-input" rows="4" placeholder="Tell us how you would like to collaborate..."></textarea>
+                            </div>
+                            <div class="col-12 text-center mt-4">
+                                <button type="submit" class="btn-white">Submit Application</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <a class="d-flex align-items-center mb-3 text-decoration-none" href="#">
+                         <span style="font-weight:800; font-size:1.5rem; color:white; letter-spacing:1px;">NATIVEDEFENCE</span>
+                    </a>
+                    <p class="text-muted">
+                        NativeSOC is an expert-driven Cyber Security Services company, with its Technical and SOC operations based out of Ahmedabad and Sales and Marketing driving from Mumbai.
+                    </p>
+                </div>
+
+                <div class="col-lg-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="nativesoc.html">NativeSOC</a></li>
+                        <li><a href="academy.html">Academy</a></li>
+                        <li><a href="vapt.html">VAPT</a></li>
+                        <li><a href="partners.html">Partners</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-5">
+                    <h5>Contact Info</h5>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i> 
+                        <span>sales@nativedefence.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>AHMEDABAD</strong><br>
+                            D-311 Ganesh Glory 11, Jagatpur Rd,<br>
+                            Ahmedabad, Gujarat 382470
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                Copyright 2023 © NATIVEDEFENCE TECH LLP. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

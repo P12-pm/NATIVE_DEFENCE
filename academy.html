@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy - Native Defence</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #2d46b9;
+            --accent-color: #00c4cc;
+            --accent-orange: #ff6b35;
+            --light-bg: #ffffff;
+            --section-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-dark: #1a1a2e;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --gradient-start: #0066cc;
+            --gradient-end: #00c4cc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Page Loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin: 0 auto 20px;
+        }
+
+        .loader-icon::before,
+        .loader-icon::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .loader-icon::before {
+            width: 100%;
+            height: 100%;
+            border: 4px solid #e9ecef;
+            border-top-color: var(--primary-color);
+            border-right-color: var(--accent-color);
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-icon::after {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            border: 4px solid #e9ecef;
+            border-bottom-color: var(--secondary-color);
+            animation: spin 0.8s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .navbar-brand img { 
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+
+        .navbar-brand-text { 
+            font-weight: 700; 
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem; 
+            letter-spacing: 1px;
+        }
+
+        .nav-link { 
+            color: var(--text-dark) !important; 
+            font-weight: 600; 
+            margin-left: 15px; 
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 15px !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 70%;
+        }
+
+        .nav-link:hover, .nav-link.active { 
+            color: var(--primary-color) !important;
+        }
+
+        /* --- Hero Section --- */
+        .academy-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 160px 0 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Background Elements */
+        .hero-bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.1);
+            animation: floatIcon 10s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 60%; left: 20%; animation-delay: 2s; }
+        .floating-icon:nth-child(3) { top: 30%; right: 15%; animation-delay: 4s; }
+        .floating-icon:nth-child(4) { top: 70%; right: 25%; animation-delay: 1s; }
+        .floating-icon:nth-child(5) { top: 40%; left: 40%; animation-delay: 3s; }
+        .floating-icon:nth-child(6) { top: 80%; left: 60%; animation-delay: 5s; }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-30px) rotate(15deg); opacity: 0.2; }
+        }
+
+        /* Grid Pattern Overlay */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-badge i {
+            margin-right: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .academy-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 25px;
+            text-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 650px;
+            margin: 0 auto 35px;
+            line-height: 1.8;
+        }
+
+        .hero-btn {
+            background: white;
+            color: var(--secondary-color);
+            font-weight: 700;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border: none;
+        }
+
+        .hero-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            color: var(--primary-color);
+        }
+
+        .hero-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Hero Stats */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Features Section --- */
+        .features-section {
+            padding: 100px 0;
+            background: var(--light-bg);
+            position: relative;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 196, 204, 0.1));
+            color: var(--primary-color);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 45px 30px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 60px rgba(0, 102, 204, 0.15);
+            border-color: transparent;
+        }
+
+        .feature-icon-wrapper {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 196, 204, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .feature-icon-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px dashed rgba(0, 102, 204, 0.2);
+            animation: rotateBorder 10s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-card:hover .feature-icon-wrapper {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-card:hover .feature-icon {
+            background: white;
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .feature-text {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* --- Course Catalog --- */
+        .courses-section {
+            padding: 100px 0;
+            background: var(--section-bg);
+            position: relative;
+        }
+
+        .course-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .course-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 60px rgba(0, 102, 204, 0.15);
+            border-color: transparent;
+        }
+
+        .course-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+        }
+
+        .course-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .course-card:hover .course-img::after {
+            left: 100%;
+        }
+
+        .course-level {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .level-beginner {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .level-intermediate {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: white;
+        }
+
+        .level-advanced {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        .course-duration {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-dark);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .course-duration i {
+            margin-right: 6px;
+            color: var(--primary-color);
+        }
+
+        .course-body {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-title {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-meta span {
+            display: flex;
+            align-items: center;
+        }
+
+        .course-meta i {
+            margin-right: 6px;
+            color: var(--primary-color);
+        }
+
+        .course-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .btn-course {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border: none;
+            color: white;
+            padding: 14px 25px;
+            width: 100%;
+            border-radius: 12px;
+            transition: all 0.4s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-course::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-course:hover::before {
+            left: 100%;
+        }
+
+        .btn-course:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 102, 204, 0.3);
+            color: white;
+        }
+
+        .btn-course i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-course:hover i {
+            transform: translateX(5px);
+        }
+
+        /* --- CTA Section --- */
+        .cta-section {
+            padding: 100px 0;
+            background: var(--light-bg);
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            padding: 70px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(102, 126, 234, 0.3);
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+            animation: pulseBg 5s ease-in-out infinite;
+        }
+
+        @keyframes pulseBg {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .cta-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .cta-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 35px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #667eea;
+            font-weight: 700;
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            color: #764ba2;
+        }
+
+        .cta-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 80px 0 30px;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        footer h5 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .footer-brand {
+            margin-bottom: 20px;
+        }
+
+        .footer-brand-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #fff, var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-description {
+            color: #9ca3af;
+            line-height: 1.8;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        footer ul li {
+            margin-bottom: 12px;
+        }
+
+        footer a { 
+            color: #9ca3af; 
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        footer a::before {
+            content: '→';
+            margin-right: 8px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        footer a:hover { 
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+
+        .contact-item { 
+            display: flex; 
+            margin-bottom: 20px; 
+            color: #9ca3af;
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 196, 204, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .contact-icon i { 
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-link::before {
+            display: none;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            transform: translateY(-5px);
+            border-color: transparent;
+        }
+
+        .copyright { 
+            border-top: 1px solid rgba(255, 255, 255, 0.1); 
+            margin-top: 50px; 
+            padding-top: 25px; 
+            text-align: center; 
+            color: #6b7280;
+        }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 992px) {
+            .academy-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .hero-stats {
+                gap: 30px;
+            }
+            .stat-number {
+                font-size: 2rem;
+            }
+            .cta-box {
+                padding: 50px 30px;
+            }
+            .cta-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .academy-hero {
+                padding: 130px 0 80px;
+            }
+            .academy-title {
+                font-size: 1.8rem;
+            }
+            .hero-subtitle {
+                font-size: 0.95rem;
+                line-height: 1.7;
+            }
+            .hero-badge {
+                font-size: 0.75rem;
+                padding: 8px 18px;
+            }
+            .hero-btn {
+                padding: 12px 30px;
+                font-size: 0.9rem;
+            }
+            .hero-stats {
+                gap: 25px;
+                margin-top: 40px;
+            }
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            .stat-label {
+                font-size: 0.75rem;
+            }
+            .features-section,
+            .courses-section,
+            .cta-section {
+                padding: 60px 0;
+            }
+            .section-label {
+                font-size: 0.7rem;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .section-subtitle {
+                font-size: 0.95rem;
+            }
+            .feature-card {
+                padding: 35px 25px;
+                margin-bottom: 20px;
+            }
+            .feature-icon-wrapper {
+                width: 80px;
+                height: 80px;
+            }
+            .feature-icon {
+                font-size: 2rem;
+            }
+            .feature-title {
+                font-size: 1.15rem;
+            }
+            .feature-text {
+                font-size: 0.9rem;
+            }
+            .course-card {
+                margin-bottom: 25px;
+            }
+            .course-img {
+                height: 180px;
+            }
+            .course-body {
+                padding: 25px;
+            }
+            .course-title {
+                font-size: 1.2rem;
+            }
+            .course-meta {
+                font-size: 0.8rem;
+                gap: 15px;
+            }
+            .course-description {
+                font-size: 0.9rem;
+            }
+            .cta-box {
+                padding: 40px 25px;
+                border-radius: 20px;
+            }
+            .cta-icon {
+                width: 60px;
+                height: 60px;
+            }
+            .cta-icon i {
+                font-size: 1.5rem;
+            }
+            .cta-title {
+                font-size: 1.5rem;
+            }
+            .cta-text {
+                font-size: 0.95rem;
+            }
+            .cta-btn {
+                padding: 14px 35px;
+                font-size: 0.9rem;
+            }
+            .navbar-brand-text {
+                font-size: 1.2rem;
+            }
+            footer {
+                padding: 50px 0 20px;
+            }
+            footer h5 {
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .academy-title {
+                font-size: 1.5rem;
+            }
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .feature-card {
+                padding: 30px 20px;
+            }
+            .course-img {
+                height: 160px;
+            }
+            .course-title {
+                font-size: 1.1rem;
+            }
+            .cta-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Animation Classes */
+        .animate-fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Typing Effect */
+        .typing-text {
+            border-right: 3px solid var(--primary-color);
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { border-color: var(--primary-color); }
+            50% { border-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page Loader -->
+    <div class="page-loader">
+        <div class="loader-content">
+            <div class="loader-icon"></div>
+            <div class="loader-text">ACADEMY</div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="NATIVEDEFENCE_Logo1.png" alt="Native Defence" onerror="this.style.display='none'">
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vapt.html">VAPT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="partners.html">Partners</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="academy-hero">
+        <div class="hero-bg-animation">
+            <i class="fas fa-code floating-icon"></i>
+            <i class="fas fa-shield-alt floating-icon"></i>
+            <i class="fas fa-lock floating-icon"></i>
+            <i class="fas fa-terminal floating-icon"></i>
+            <i class="fas fa-bug floating-icon"></i>
+            <i class="fas fa-network-wired floating-icon"></i>
+        </div>
+        <div class="grid-overlay"></div>
+        
+        <div class="container hero-content">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div data-aos="fade-down" data-aos-duration="800">
+                        <span class="hero-badge">
+                            <i class="fas fa-graduation-cap"></i>
+                            Learn From Experts
+                        </span>
+                    </div>
+                    <h1 class="academy-title" data-aos="fade-up" data-aos-duration="1000">
+                        NativeDefence Academy
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        Forging the next generation of Cyber Warriors. Practical, hands-on training from industry experts to close the global skills gap.
+                    </p>
+                    <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                        <a href="cource.html" class="hero-btn">
+                            Explore Courses
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="hero-stats" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Students Trained</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">15+</span>
+                            <span class="stat-label">Expert Mentors</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Placement Rate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up" data-aos-duration="800">
+                <span class="section-label">Why Choose Us</span>
+                <h2 class="section-title">Our Training Methodology</h2>
+                <p class="section-subtitle">We believe in learning by doing. Our curriculum is designed by security professionals who work in the field every day.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="0">
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <i class="fas fa-laptop-code feature-icon"></i>
+                        </div>
+                        <h4 class="feature-title">Hands-on Labs</h4>
+                        <p class="feature-text">Theory is good, practice is better. Access our live cyber range to practice attacks and defense in real-time environments.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                        </div>
+                        <h4 class="feature-title">Expert Mentors</h4>
+                        <p class="feature-text">Learn from professionals who work in our SOC and VAPT teams daily. Real-world scenarios, not just textbooks.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <i class="fas fa-award feature-icon"></i>
+                        </div>
+                        <h4 class="feature-title">Certification</h4>
+                        <p class="feature-text">Earn industry-recognized certificates upon completion to boost your resume and accelerate your career prospects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Catalog -->
+    <section id="courses" class="courses-section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up" data-aos-duration="800">
+                <span class="section-label">Curriculum</span>
+                <h2 class="section-title">Featured Courses</h2>
+                <p class="section-subtitle">Choose your path to becoming a cybersecurity professional with our comprehensive course offerings.</p>
+            </div>
+
+            <div class="row g-4">
+                
+                <!-- Course 1 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="0">
+                    <div class="course-card">
+                        <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=600&q=80');">
+                            <span class="course-level level-beginner">Beginner</span>
+                            <span class="course-duration"><i class="far fa-clock"></i> 6 Weeks</span>
+                        </div>
+                        <div class="course-body">
+                            <h3 class="course-title">Certified SOC Analyst</h3>
+                            <div class="course-meta">
+                                <span><i class="fas fa-video"></i> Live + Recorded</span>
+                                <span><i class="fas fa-users"></i> 25 Students</span>
+                            </div>
+                            <p class="course-description">
+                                Master the fundamentals of Security Operations. Learn SIEM management, log analysis, and incident response procedures.
+                            </p>
+                            <a href="#" class="btn-course">
+                                Download Syllabus
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <div class="course-card">
+                        <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80');">
+                            <span class="course-level level-intermediate">Intermediate</span>
+                            <span class="course-duration"><i class="far fa-clock"></i> 8 Weeks</span>
+                        </div>
+                        <div class="course-body">
+                            <h3 class="course-title">Ethical Hacking & VAPT</h3>
+                            <div class="course-meta">
+                                <span><i class="fas fa-laptop"></i> 80% Hands-on</span>
+                                <span><i class="fas fa-users"></i> 20 Students</span>
+                            </div>
+                            <p class="course-description">
+                                Learn how to think like an attacker. Covers Network Penetration Testing, Web App Security, and Vulnerability Assessment.
+                            </p>
+                            <a href="#" class="btn-course">
+                                Download Syllabus
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                    <div class="course-card">
+                        <div class="course-img" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80');">
+                            <span class="course-level level-advanced">Advanced</span>
+                            <span class="course-duration"><i class="far fa-clock"></i> 4 Weeks</span>
+                        </div>
+                        <div class="course-body">
+                            <h3 class="course-title">Threat Hunting Professional</h3>
+                            <div class="course-meta">
+                                <span><i class="fas fa-brain"></i> Logic Based</span>
+                                <span><i class="fas fa-users"></i> 15 Students</span>
+                            </div>
+                            <p class="course-description">
+                                Go beyond automated tools. Learn to proactively hunt for adversaries in your network using advanced forensics and analytics.
+                            </p>
+                            <a href="course.html" class="btn-course">
+                                View Course
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box" data-aos="zoom-in" data-aos-duration="1000">
+                <div class="cta-content">
+                    <div class="cta-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h2 class="cta-title">Not sure where to start?</h2>
+                    <p class="cta-text">Talk to our career counselors to find the right path for you in Cyber Security. We'll help you choose the perfect course based on your goals.</p>
+                    <a href="mailto:academy@nativedefence.com" class="cta-btn">
+                        Contact Academy Team
+                        <i class="fas fa-paper-plane"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-duration="800">
+                    <div class="footer-brand">
+                        <img src="NATIVEDEFENCE_Logo1.png" alt="Logo" style="height: 45px; margin-bottom: 15px;" onerror="this.style.display='none'">
+                        <span class="footer-brand-text d-block">NATIVEDEFENCE</span>
+                    </div>
+                    <p class="footer-description">Empowering the world through secure digital ecosystems and education. Building the next generation of cyber defenders.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="academy.html">Academy</a></li>
+                        <li><a href="vapt.html">VAPT Services</a></li>
+                        <li><a href="nativesoc.html">NativeSOC</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                    <h5>Contact Academy</h5>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <a href="mailto:academy@nativedefence.com" style="padding-left: 0;">academy@nativedefence.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <span>+91 98765 43210</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <span>Mon - Sat: 9:00 AM - 6:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 NATIVEDEFENCE TECH LLP. All rights reserved. | Empowering Cyber Warriors <i class="fas fa-shield-alt" style="color: var(--accent-color);"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            offset: 100,
+            easing: 'ease-out-cubic'
+        });
+
+        // Page Loader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.page-loader').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animate stats on scroll
+        const animateStats = () => {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const text = stat.innerText;
+                const hasPlus = text.includes('+');
+                const hasPercent = text.includes('%');
+                const number = parseInt(text.replace(/[^0-9]/g, ''));
+                
+                let current = 0;
+                const increment = number / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= number) {
+                        current = number;
+                        clearInterval(timer);
+                    }
+                    let display = Math.floor(current);
+                    if (hasPlus) display += '+';
+                    if (hasPercent) display += '%';
+                    stat.innerText = display;
+                }, 30);
+            });
+        };
+
+        // Trigger stats animation when hero section is visible
+        const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(animateStats, 500);
+                    heroObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        heroObserver.observe(document.querySelector('.academy-hero'));
+
+        // Add hover effect sound (visual feedback)
+        const cards = document.querySelectorAll('.course-card, .feature-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+
+        // Parallax effect on floating icons
+        document.addEventListener('mousemove', (e) => {
+            const icons = document.querySelectorAll('.floating-icon');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            icons.forEach((icon, index) => {
+                const speed = (index + 1) * 10;
+                const xOffset = (x - 0.5) * speed;
+                const yOffset = (y - 0.5) * speed;
+                icon.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Native Defence</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #2d46b9;
+            --accent-color: #00c4cc;
+            --light-bg: #ffffff;
+            --section-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-dark: #1a1a2e;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --gradient-start: #0066cc;
+            --gradient-end: #00c4cc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Page Loader */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #e9ecef;
+            border-top: 4px solid var(--primary-color);
+            border-right: 4px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .loader-text {
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.2rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .navbar-brand img { 
+            height: 50px; 
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+
+        .navbar-brand-text { 
+            font-weight: 700; 
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem; 
+            letter-spacing: 1px; 
+        }
+
+        .nav-link { 
+            color: var(--text-dark) !important; 
+            font-weight: 600; 
+            margin-left: 15px; 
+            transition: all 0.3s ease; 
+            position: relative;
+            padding: 8px 15px !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 70%;
+        }
+
+        .nav-link:hover, .nav-link.active { 
+            color: var(--primary-color) !important; 
+        }
+
+        /* --- Hero Section --- */
+        .about-hero {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf3 100%);
+            padding: 160px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Background Elements */
+        .hero-bg-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: floatShape 8s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: var(--secondary-color);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            background: var(--accent-color);
+            top: 50%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+
+        @keyframes floatShape {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Grid Pattern */
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 102, 204, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 102, 204, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-dark) 0%, var(--primary-color) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Breadcrumb Style Badge */
+        .page-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 196, 204, 0.1));
+            color: var(--primary-color);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 102, 204, 0.2);
+        }
+
+        /* --- Content Sections --- */
+        .story-section {
+            padding: 100px 0;
+            background: var(--light-bg);
+        }
+
+        .section-label {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 196, 204, 0.1));
+            color: var(--primary-color);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .section-heading {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+        }
+
+        .highlight-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--text-dark);
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, var(--primary-color), var(--accent-color)) 1;
+            padding-left: 25px;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, rgba(0, 102, 204, 0.05), transparent);
+            padding: 20px 25px;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+        }
+
+        .text-content {
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Visual Card */
+        .visual-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .visual-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 15px 40px rgba(0, 102, 204, 0.3);
+            animation: pulseIcon 3s ease-in-out infinite;
+        }
+
+        .visual-icon i {
+            font-size: 3rem;
+            color: white;
+        }
+
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); box-shadow: 0 15px 40px rgba(0, 102, 204, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 20px 50px rgba(0, 102, 204, 0.4); }
+        }
+
+        .visual-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .visual-subtitle {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* --- Values Cards --- */
+        .values-section {
+            padding: 100px 0;
+            background: var(--section-bg);
+            position: relative;
+        }
+
+        .value-card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            height: 100%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .value-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0, 102, 204, 0.15);
+            border-color: transparent;
+        }
+
+        .value-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 196, 204, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            transition: all 0.4s ease;
+        }
+
+        .value-icon i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .value-card:hover .value-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .value-card:hover .value-icon i {
+            background: white;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .value-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .value-text {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* --- Locations Section --- */
+        .locations-section {
+            padding: 100px 0;
+            background: var(--light-bg);
+        }
+
+        .location-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            display: flex;
+            align-items: flex-start;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .location-box:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 40px rgba(0, 102, 204, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .location-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 196, 204, 0.1));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            transition: all 0.4s ease;
+        }
+
+        .location-icon i {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .location-box:hover .location-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        .location-box:hover .location-icon i {
+            background: white;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .location-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .location-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .location-address {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* --- Ecosystem Section --- */
+        .ecosystem-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+        }
+
+        .ecosystem-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .ecosystem-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .client-type {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-dark);
+            padding: 18px 15px;
+            text-align: center;
+            margin: 8px 0;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .client-type:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-color: transparent;
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 102, 204, 0.3);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 80px 0 30px;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        footer h5 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .footer-brand {
+            margin-bottom: 20px;
+        }
+
+        .footer-brand-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #fff, var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-description {
+            color: #9ca3af;
+            line-height: 1.8;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        footer ul li {
+            margin-bottom: 12px;
+        }
+
+        footer a { 
+            color: #9ca3af; 
+            text-decoration: none; 
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        footer a::before {
+            content: '→';
+            margin-right: 8px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        footer a:hover { 
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+
+        .contact-item { 
+            display: flex; 
+            margin-bottom: 20px; 
+            color: #9ca3af;
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 196, 204, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .contact-icon i { 
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-link::before {
+            display: none;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            transform: translateY(-5px);
+            border-color: transparent;
+        }
+
+        .copyright { 
+            border-top: 1px solid rgba(255, 255, 255, 0.1); 
+            margin-top: 50px; 
+            padding-top: 25px; 
+            text-align: center; 
+            color: #6b7280;
+        }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 992px) {
+            .section-title {
+                font-size: 2.5rem;
+            }
+            .section-heading {
+                font-size: 1.8rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            .visual-card {
+                padding: 40px;
+                margin-top: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero {
+                padding: 130px 0 70px;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .hero-subtitle {
+                font-size: 0.95rem;
+                line-height: 1.7;
+            }
+            .page-badge {
+                font-size: 0.75rem;
+                padding: 8px 18px;
+            }
+            .story-section,
+            .values-section,
+            .locations-section {
+                padding: 60px 0;
+            }
+            .section-label {
+                font-size: 0.7rem;
+            }
+            .section-heading {
+                font-size: 1.5rem;
+            }
+            .highlight-text {
+                font-size: 1rem;
+                padding: 15px 20px;
+            }
+            .text-content {
+                font-size: 0.95rem;
+            }
+            .visual-card {
+                padding: 35px 25px;
+            }
+            .visual-icon {
+                width: 100px;
+                height: 100px;
+            }
+            .visual-icon i {
+                font-size: 2.5rem;
+            }
+            .visual-title {
+                font-size: 1.5rem;
+            }
+            .value-card {
+                padding: 30px 20px;
+                margin-bottom: 20px;
+            }
+            .value-icon {
+                width: 70px;
+                height: 70px;
+            }
+            .value-icon i {
+                font-size: 1.6rem;
+            }
+            .value-title {
+                font-size: 1.15rem;
+            }
+            .value-text {
+                font-size: 0.9rem;
+            }
+            .location-box {
+                padding: 20px;
+            }
+            .location-icon {
+                width: 50px;
+                height: 50px;
+            }
+            .location-icon i {
+                font-size: 1.2rem;
+            }
+            .location-title {
+                font-size: 1.05rem;
+            }
+            .ecosystem-box {
+                padding: 25px;
+                margin-top: 40px;
+            }
+            .client-type {
+                padding: 14px 12px;
+                font-size: 0.75rem;
+            }
+            .navbar-brand-text {
+                font-size: 1.2rem;
+            }
+            footer {
+                padding: 50px 0 20px;
+            }
+            footer h5 {
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+            .section-heading {
+                font-size: 1.3rem;
+            }
+            .highlight-text {
+                font-size: 0.95rem;
+            }
+            .visual-card {
+                padding: 30px 20px;
+            }
+            .visual-icon {
+                width: 80px;
+                height: 80px;
+            }
+            .visual-icon i {
+                font-size: 2rem;
+            }
+            .visual-title {
+                font-size: 1.3rem;
+            }
+            .location-box {
+                flex-direction: column;
+            }
+            .location-icon {
+                margin-bottom: 15px;
+                margin-right: 0;
+            }
+        }
+
+        /* Animation Classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Particle Effect */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle 15s infinite;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page Loader -->
+    <div class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="NATIVEDEFENCE_Logo1.png" alt="Native Defence" onerror="this.style.display='none'">
+                <span class="navbar-brand-text ms-2">NATIVEDEFENCE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nativesoc.html">NativeSOC</a></li>
+                    <li class="nav-item"><a class="nav-link" href="academy.html">Academy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vapt.html">VAPT</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="about.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="partners.html">Partners</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="hero-bg-shapes">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+        <div class="grid-pattern"></div>
+        <div class="particles" id="particles"></div>
+        
+        <div class="container hero-content">
+            <div data-aos="fade-down" data-aos-duration="800">
+                <span class="page-badge"><i class="fas fa-users me-2"></i>About Us</span>
+            </div>
+            <h1 class="section-title" data-aos="fade-up" data-aos-duration="1000">Who We Are</h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                Expert-driven Cyber Security Services. Innovating defense mechanisms to build global cyber resiliency.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Story Section -->
+    <section class="story-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
+                    <span class="section-label">Our Story</span>
+                    <h2 class="section-heading">Experts Driving Security</h2>
+                    <div class="highlight-text">
+                        "NativeSOC is a technology from NativeDefence that helps you stay ahead of the threat, detect early, manage better and ultimately defend yourself better."
+                    </div>
+                    <p class="text-content mb-4">
+                        NativeDefence Tech LLP was founded with a singular mission: to provide expert-driven cybersecurity services that are accessible and effective. We believe that defense is the best offense. By proactively monitoring networks and systems, we empower our clients to operate freely in the digital world.
+                    </p>
+                    <p class="text-content">
+                        Our team works extensively with End-Customers, Resellers, System Integrators (SIs), and OEMs, leveraging our vast experience in the domain to deliver tailored security solutions.
+                    </p>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="visual-card">
+                        <div class="visual-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="visual-title">NativeDefence</h3>
+                        <p class="visual-subtitle">EST. 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission/Values -->
+    <section class="values-section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up" data-aos-duration="800">
+                <span class="section-label">Our Values</span>
+                <h2 class="section-heading">What Drives Us</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="0">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-eye"></i></div>
+                        <h4 class="value-title">Proactive Vision</h4>
+                        <p class="value-text">We don't just react to incidents; we anticipate them. Staying ahead of the threat is our core philosophy.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-dumbbell"></i></div>
+                        <h4 class="value-title">Cyber Resiliency</h4>
+                        <p class="value-text">We help organizations withstand attacks and recover quickly, ensuring business continuity.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-users-cog"></i></div>
+                        <h4 class="value-title">Expertise</h4>
+                        <p class="value-text">Our solutions are driven by human intelligence, supported by advanced AI technology.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Operations & Locations -->
+    <section class="locations-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
+                    <span class="section-label">Operations</span>
+                    <h2 class="section-heading">Our Operations</h2>
+                    <p class="text-content mb-4">
+                        NativeDefence operates with a strategic split to maximize efficiency and client support. While our technical heart beats in Gujarat, our commercial pulse drives from Mumbai.
+                    </p>
+                    
+                    <div class="ecosystem-box">
+                        <h5 class="ecosystem-title">
+                            <i class="fas fa-handshake"></i>
+                            We Work With:
+                        </h5>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="client-type">End-Customers</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="client-type">Resellers</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="client-type">SI's</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="client-type">OEM's</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-1"></div>
+                
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <span class="section-label">Locations</span>
+                    <h2 class="section-heading">Operational Hubs</h2>
+                    
+                    <div class="location-box" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+                        <div class="location-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div>
+                            <h5 class="location-title">Ahmedabad (Technical HQ)</h5>
+                            <p class="location-desc">
+                                Home to our SOC operations and Technical Team. This is where the monitoring, detection, and analysis happen 24/7.
+                            </p>
+                            <span class="location-address">
+                                <i class="fas fa-map-pin me-1"></i>
+                                D-311 Ganesh Glory 11, Jagatpur Rd
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="location-box" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
+                        <div class="location-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div>
+                            <h5 class="location-title">Mumbai (Sales & Marketing)</h5>
+                            <p class="location-desc">
+                                Driving business growth and client relationships. Our sales and marketing strategies are formulated here.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="location-box" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h5 class="location-title">Kolkata</h5>
+                            <p class="location-desc">
+                                Regional presence and support office.
+                            </p>
+                            <span class="location-address">
+                                <i class="fas fa-map-pin me-1"></i>
+                                8 Beck Bagan Row
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container footer-content">
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-duration="800">
+                    <div class="footer-brand">
+                        <img src="NATIVEDEFENCE_Logo1.png" alt="Logo" style="height: 45px; margin-bottom: 15px;" onerror="this.style.display='none'">
+                        <span class="footer-brand-text d-block">NATIVEDEFENCE</span>
+                    </div>
+                    <p class="footer-description">Defense is the Best Offence in Cyber Security. Protecting your digital assets with advanced threat detection.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="nativesoc.html">NativeSOC</a></li>
+                        <li><a href="academy.html">Academy</a></li>
+                        <li><a href="vapt.html">VAPT</a></li>
+                        <li><a href="about.html">About us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                    <h5>Reach Us</h5>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <a href="mailto:sales@nativedefence.com" style="padding-left: 0;">sales@nativedefence.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <span>Ahmedabad • Mumbai • Kolkata</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <span>24/7 SOC Operations</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 NATIVEDEFENCE TECH LLP. All rights reserved. | Built with <i class="fas fa-heart" style="color: #ff6b6b;"></i> for Security</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            offset: 100,
+            easing: 'ease-out-cubic'
+        });
+
+        // Page Loader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.page-loader').classList.add('hidden');
+            }, 800);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.width = (Math.random() * 6 + 3) + 'px';
+                particle.style.height = particle.style.width;
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.floating-shape');
+            
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.1;
+                shape.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Add hover sound effect simulation (visual feedback)
+        const cards = document.querySelectorAll('.value-card, .location-box, .client-type');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+    </script>
+</body>
+</html>
